@@ -1,0 +1,54 @@
+{% load tz %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-900">
+
+    <!-- Navbar -->
+    <header class="bg-white shadow-md">
+        <div class="container mx-auto px-5 py-4 flex justify-between items-center">
+            <h1 class="text-2xl font-semibold">Welcome, {{ user.username }}</h1>
+            <a href="{% url 'logout' %}" 
+               class="px-4 py-2 bg-red-500 text-white rounded-lg shadow hover:bg-red-600 transition">
+                Logout
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <section class="container mx-auto px-5 py-12">
+        <h2 class="text-xl font-semibold mb-6 text-center">Your Reports</h2>
+        
+        <div class="bg-white shadow-lg rounded-lg p-6">
+            <ul class="divide-y divide-gray-200">
+                {% for report in reports %}
+                    <li class="py-4">
+                        <strong class="text-lg text-indigo-600">{{ report.title }}</strong>
+                        <span class="text-gray-500 text-sm block">
+                            {{ report.timestamp|date:"Y-m-d H:i:s" }}
+                        </span>
+                        <p class="mt-2 text-gray-700">{{ report.description }}</p>
+                    </li>
+                {% empty %}
+                    <p class="text-gray-500 text-center">No reports found.</p>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- File a new report -->
+        <div class="mt-8 flex justify-center">
+            <a href="{% url 'report' %}" 
+               class="px-5 py-3 bg-blue-500 text-white font-medium rounded-lg shadow-md hover:bg-blue-600 transition">
+                + File a New Report
+            </a>
+        </div>
+    </section>
+
+</body>
+</html>
